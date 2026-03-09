@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>W&L Football Analytics — Senior Capstone 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   RESET + ROOT
+══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04080f;
+  --navy:#070f1d;
+  --surface:#0a1220;
+  --card:#0d1828;
+  --border:#182438;
+  --border2:#22334a;
+  --gold:#e8b84d;
+  --gold-lt:#f0cc7a;
+  --gold-dk:#8a6010;
+  --cream:#f0e6cc;
+  --muted:#5a7a8a;
+  --muted2:#8a9aaa;
+  --green:#3ecf8e;
+  --red:#e05050;
+  --blue:#4a8ed4;
+  --ff-display:'Cormorant Garamond',Georgia,serif;
+  --ff-body:'DM Sans','Helvetica Neue',sans-serif;
+  --ff-mono:'DM Mono','Courier New',monospace;
+  --nav-h:60px;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--cream);
+  font-family:var(--ff-body);font-size:15px;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* ══════════════════════════════════════════
+   NAV
+══════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--nav-h);
+  background:rgba(4,8,15,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  padding:0 40px;gap:8px;
+}
+.nav-logo{
+  font-family:var(--ff-display);font-size:20px;font-weight:700;
+  color:var(--gold);letter-spacing:.02em;margin-right:auto;
+  text-decoration:none;
+}
+.nav-logo span{color:var(--muted);font-weight:300}
+nav a{
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  font-weight:500;color:var(--muted);text-decoration:none;
+  padding:6px 12px;border-radius:4px;transition:all .2s;
+}
+nav a:hover{color:var(--gold);background:rgba(232,184,77,.06)}
+nav a.active{color:var(--gold)}
+
+/* ══════════════════════════════════════════
+   SECTIONS (shared)
+══════════════════════════════════════════ */
+section{
+  min-height:100vh;
+  padding:calc(var(--nav-h) + 60px) 0 80px;
+  position:relative;
+}
+section.short{min-height:auto;padding:calc(var(--nav-h) + 60px) 0 80px}
+.container{max-width:1100px;margin:0 auto;padding:0 40px}
+.container-wide{max-width:1300px;margin:0 auto;padding:0 40px}
+
+.eyebrow{
+  font-family:var(--ff-body);font-size:10px;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);font-weight:700;margin-bottom:12px;
+}
+.section-title{
+  font-family:var(--ff-display);font-size:clamp(36px,5vw,60px);
+  font-weight:700;color:var(--cream);line-height:1.05;
+  margin-bottom:16px;
+}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-sub{
+  font-size:16px;color:var(--muted2);line-height:1.7;
+  max-width:640px;margin-bottom:48px;
+}
+.rule{width:40px;height:3px;background:var(--gold);margin:16px 0 28px}
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+#hero{
+  padding:0;min-height:100vh;
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 20%, rgba(20,60,140,.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 90%, rgba(200,150,10,.06) 0%, transparent 55%),
+    linear-gradient(165deg,#04080f 50%,#060f20 100%);
+}
+/* Animated grid lines */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(24,36,56,.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24,36,56,.5) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+}
+.hero-content{
+  position:relative;z-index:1;
+  padding:calc(var(--nav-h) + 40px) 40px 80px;
+  max-width:1100px;margin:0 auto;width:100%;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(232,184,77,.08);border:1px solid rgba(232,184,77,.2);
+  border-radius:20px;padding:5px 14px;margin-bottom:28px;
+}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse-dot 2s ease infinite}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-tag-text{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700}
+
+.hero-title{
+  font-family:var(--ff-display);
+  font-size:clamp(52px,8vw,96px);
+  font-weight:700;line-height:.95;
+  letter-spacing:-.02em;
+  color:var(--cream);
+  margin-bottom:8px;
+}
+.hero-title .line2{
+  font-style:italic;color:var(--gold);
+  display:block;
+}
+.hero-year{
+  font-family:var(--ff-display);
+  font-size:clamp(20px,3vw,32px);
+  font-weight:300;color:var(--muted);
+  margin-bottom:28px;letter-spacing:.04em;
+}
+.hero-desc{
+  font-size:17px;color:var(--muted2);line-height:1.75;
+  max-width:560px;margin-bottom:44px;
+}
+
+.hero-stats{
+  display:flex;gap:0;margin-bottom:48px;
+  border:1px solid var(--border2);border-radius:10px;
+  overflow:hidden;max-width:580px;
+  background:rgba(10,18,32,.6);
+}
+.hstat{
+  flex:1;padding:18px 20px;
+  border-right:1px solid var(--border);
+}
+.hstat:last-child{border-right:none}
+.hstat-val{
+  font-family:var(--ff-display);font-size:28px;font-weight:700;
+  color:var(--gold);line-height:1;margin-bottom:4px;
+}
+.hstat-val.green{color:var(--green)}
+.hstat-val.blue{color:var(--blue)}
+.hstat-label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+
+.hero-cta{
+  display:flex;gap:12px;flex-wrap:wrap;
+}
+.btn-primary{
+  background:var(--gold);color:var(--bg);
+  font-family:var(--ff-body);font-size:12px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:12px 24px;border-radius:6px;text-decoration:none;
+  transition:all .2s;border:none;cursor:pointer;
+}
+.btn-primary:hover{background:var(--gold-lt);transform:translateY(-1px)}
+.btn-ghost{
+  background:none;border:1px solid var(--border2);
+  color:var(--muted2);font-family:var(--ff-body);font-size:12px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:12px 24px;border-radius:6px;text-decoration:none;
+  transition:all .2s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+/* scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  animation:bob 2.5s ease infinite;
+}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.scroll-arrow{width:1px;height:32px;background:linear-gradient(to bottom,var(--gold),transparent)}
+
+/* ══════════════════════════════════════════
+   LOG
+══════════════════════════════════════════ */
+#log{background:var(--navy)}
+.timeline{position:relative;padding-left:24px}
+.timeline::before{
+  content:'';position:absolute;left:0;top:8px;bottom:8px;
+  width:1px;background:linear-gradient(to bottom,var(--gold),transparent 90%);
+}
+.tl-entry{
+  position:relative;margin-bottom:36px;
+  padding-left:28px;
+}
+.tl-entry::before{
+  content:'';position:absolute;left:-28px;top:6px;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--card);border:2px solid var(--gold);
+  transition:background .3s;
+}
+.tl-entry:hover::before{background:var(--gold)}
+.tl-date{
+  font-family:var(--ff-mono);font-size:11px;color:var(--gold);
+  letter-spacing:.1em;margin-bottom:5px;
+}
+.tl-title{
+  font-family:var(--ff-display);font-size:22px;font-weight:600;
+  color:var(--cream);margin-bottom:6px;line-height:1.2;
+}
+.tl-body{font-size:14px;color:var(--muted2);line-height:1.7;max-width:680px}
+.tl-body strong{color:var(--cream)}
+.tl-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tl-tag{
+  font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:700;padding:3px 9px;border-radius:3px;
+  background:rgba(232,184,77,.08);color:var(--gold);
+  border:1px solid rgba(232,184,77,.15);
+}
+
+/* ══════════════════════════════════════════
+   ARTIFACTS
+══════════════════════════════════════════ */
+#artifacts{background:var(--bg)}
+.artifact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;
+}
+.artifact-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+  text-decoration:none;display:flex;flex-direction:column;
+}
+.artifact-card:hover{border-color:var(--gold-dk);transform:translateY(-2px)}
+.ac-thumb{
+  height:140px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.ac-icon{font-size:48px;position:relative;z-index:1}
+.ac-body{padding:16px;flex:1;display:flex;flex-direction:column}
+.ac-tag{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:6px}
+.ac-title{font-family:var(--ff-display);font-size:18px;font-weight:600;color:var(--cream);margin-bottom:6px;line-height:1.2}
+.ac-desc{font-size:12px;color:var(--muted2);line-height:1.6;flex:1}
+.ac-foot{
+  margin-top:12px;padding-top:10px;border-top:1px solid var(--border);
+  font-size:10px;color:var(--muted);letter-spacing:.08em;
+}
+
+/* ══════════════════════════════════════════
+   BIBLIOGRAPHY
+══════════════════════════════════════════ */
+#bibliography{background:var(--navy)}
+.bib-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.bib-grid{grid-template-columns:1fr}}
+.bib-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:18px;
+}
+.bib-type{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  font-weight:700;margin-bottom:6px;
+}
+.bib-type.primary{color:var(--green)}
+.bib-type.secondary{color:var(--blue)}
+.bib-title{font-family:var(--ff-display);font-size:16px;font-weight:600;color:var(--cream);line-height:1.3;margin-bottom:4px}
+.bib-cite{font-family:var(--ff-mono);font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+.bib-annotation{font-size:12.5px;color:var(--muted2);line-height:1.65}
+.bib-annotation strong{color:var(--cream)}
+
+/* ══════════════════════════════════════════
+   VISUALS
+══════════════════════════════════════════ */
+#visuals{background:var(--bg)}
+.visual-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:800px){.visual-grid{grid-template-columns:1fr 1fr}}
+.visual-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;
+}
+.visual-preview{
+  height:180px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  font-family:var(--ff-display);
+}
+.visual-caption{padding:12px 14px}
+.vc-title{font-size:13px;font-weight:700;color:var(--cream);margin-bottom:3px}
+.vc-sub{font-size:11px;color:var(--muted)}
+
+/* mini dashboard preview */
+.mini-dashboard{
+  width:100%;height:100%;background:var(--bg);
+  display:grid;grid-template-rows:28px 1fr;
+  font-size:6px;overflow:hidden;
+}
+.mini-tabs{display:flex;background:#060e1a;border-bottom:1px solid var(--border)}
+.mini-tab{padding:4px 8px;color:var(--muted);font-size:5px;letter-spacing:.1em}
+.mini-tab.act{color:var(--gold);border-bottom:1px solid var(--gold)}
+.mini-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;padding:6px}
+.mini-stat{background:#0d1828;border-radius:2px;padding:4px;border-top:1px solid var(--gold)}
+.mini-val{font-family:var(--ff-display);font-size:10px;color:var(--gold);font-weight:700}
+.mini-lbl{font-size:4px;color:var(--muted);letter-spacing:.1em}
+
+/* mini schedule preview */
+.mini-schedule{width:100%;height:100%;background:var(--bg);padding:8px;display:flex;flex-direction:column;gap:3px}
+.mini-game{display:flex;align-items:center;gap:4px;padding:3px 4px;background:#0d1828;border-radius:2px}
+.mini-wk{font-size:5px;color:var(--muted);width:12px;font-family:var(--ff-mono)}
+.mini-opp{font-size:5.5px;color:var(--cream);flex:1}
+.mini-prob{font-size:6px;font-weight:700;font-family:var(--ff-display)}
+
+/* mini story preview */
+.mini-story{
+  width:100%;height:100%;
+  background:linear-gradient(135deg,#04080f,#06152a);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:6px;padding:16px;
+}
+
+/* stat bars visual */
+.vis-bars{width:100%;height:100%;padding:10px;background:var(--bg);display:flex;flex-direction:column;gap:4px;justify-content:center}
+.vis-bar-row{display:flex;align-items:center;gap:6px}
+.vis-bar-lbl{font-size:5.5px;color:var(--muted);width:44px;text-align:right;flex-shrink:0}
+.vis-bar-track{flex:1;height:5px;background:var(--border);border-radius:2px;overflow:hidden}
+.vis-bar-fill{height:100%;border-radius:2px}
+.vis-bar-val{font-size:5.5px;font-family:var(--ff-mono);color:var(--gold);width:24px;flex-shrink:0}
+
+/* ══════════════════════════════════════════
+   REFLECTIONS
+══════════════════════════════════════════ */
+#reflections{background:var(--navy)}
+.reflection-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:700px){.reflection-grid{grid-template-columns:1fr}}
+.reflection-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:24px;
+  position:relative;overflow:hidden;
+}
+.reflection-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+}
+.reflection-num{
+  font-family:var(--ff-display);font-size:64px;font-weight:700;
+  color:rgba(232,184,77,.08);position:absolute;top:-8px;right:16px;
+  line-height:1;pointer-events:none;
+}
+.reflection-title{
+  font-family:var(--ff-display);font-size:22px;font-weight:600;
+  color:var(--cream);margin-bottom:12px;line-height:1.2;
+}
+.reflection-body{font-size:13.5px;color:var(--muted2);line-height:1.75;position:relative;z-index:1}
+.reflection-body strong{color:var(--cream)}
+.reflection-body em{font-style:italic;color:var(--gold-lt)}
+
+/* featured reflection (full width) */
+.reflection-card.featured{grid-column:1/-1}
+.reflection-card.featured .reflection-title{font-size:28px}
+.reflection-card.featured .reflection-body{font-size:15px}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer{
+  background:var(--navy);border-top:1px solid var(--border);
+  padding:40px;text-align:center;
+}
+.footer-logo{font-family:var(--ff-display);font-size:24px;font-weight:700;color:var(--gold);margin-bottom:8px}
+.footer-sub{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+
+/* ══════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════ */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav>
+  <a href="#hero" class="nav-logo">W&L <span>Football Analytics</span></a>
+  <a href="#log">Log</a>
+  <a href="#artifacts">Artifacts</a>
+  <a href="#bibliography">Bibliography</a>
+  <a href="#visuals">Visuals</a>
+  <a href="#reflections">Reflections</a>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <div class="hero-tag-dot"></div>
+      <span class="hero-tag-text">Senior Capstone · Washington &amp; Lee University · 2026</span>
+    </div>
+
+    <h1 class="hero-title">
+      Generals Football
+      <span class="line2">by the Numbers</span>
+    </h1>
+    <div class="hero-year">A Predictive Analytics Capstone</div>
+
+    <p class="hero-desc">
+      Can a statistical model predict D3 football outcomes better than gut instinct?
+      This project builds a five-layer ELO + efficiency + Monte Carlo prediction engine,
+      validates it against the 2025 W&L season, and projects 2026 — game by game.
+    </p>
+
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-val">8/11</div>
+        <div class="hstat-label">2025 correct predictions</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">p=0.017</div>
+        <div class="hstat-label">Statistically significant</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val green">r=0.697</div>
+        <div class="hstat-label">Score margin correlation</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val blue">71%</div>
+        <div class="hstat-label">2026 playoff probability</div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#log" class="btn-primary">Explore the Project</a>
+      <a href="#reflections" class="btn-ghost">Read Reflections</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     LEARNING LOG
+════════════════════════════════════════ -->
+<section id="log">
+  <div class="container">
+    <div class="eyebrow fade-in">Learning Log</div>
+    <h2 class="section-title fade-in">The Journey</h2>
+    <div class="rule fade-in"></div>
+    <p class="section-sub fade-in">A chronological record of how this project developed — from initial question to validated model.</p>
+
+    <div class="timeline">
+
+      <div class="tl-entry fade-in">
+        <div class="tl-date">Step 01 — Research Question</div>
+        <div class="tl-title">Finding the Gap</div>
+        <div class="tl-body">I noticed that most D3 football predictions rely on seeding or rankings alone — essentially picking the "better" team on paper. But football outcomes are shaped by <strong>stylistic mismatches</strong> that seeding ignores: a rushing team against a weak rush defense, a blitz-heavy team against an option offense. I identified this as the core research question: can matchup compatibility predict outcomes better than quality-differential alone?</div>
+        <div class="tl-tags"><span class="tl-tag">Research Design</span><span class="tl-tag">Literature Review</span></div>
+      </div>
+
+      <div class="tl-entry fade-in">
+        <div class="tl-date">Step 02 — Data Pipeline</div>
+        <div class="tl-title">Finding and Evaluating Sources</div>
+        <div class="tl-body">I researched available D3 football data sources, eventually settling on <strong>generalssports.com</strong> for official W&L game results, <strong>D3football.com</strong> for opponent calibration, and historical records going back to 2000. A key early challenge: D3 doesn't have the same data infrastructure as FBS — no publicly available play-by-play, limited box score archives. I had to reconstruct some efficiency metrics from season-aggregate data rather than game-by-game records.</div>
+        <div class="tl-tags"><span class="tl-tag">Data Sourcing</span><span class="tl-tag">Data Pipeline</span><span class="tl-tag">Python</span></div>
+      </div>
+
+      <div class="tl-entry fade-in">
+        <div class="tl-date">Step 03 — Baseline Model</div>
+        <div class="tl-title">Building a Naive Benchmark</div>
+        <div class="tl-body">Before adding complexity, I built a <strong>seed-only baseline</strong> — always pick the team with the better historical record. This gave me a floor: 54.5% accuracy. Any model I built had to beat this to be worth building. This step taught me something important about model development: you need to know what "doing nothing" looks like before you can claim improvement.</div>
+        <div class="tl-tags"><span class="tl-tag">Baseline Model</span><span class="tl-tag">Benchmarking</span></div>
+      </div>
+
+      <div class="tl-entry fade-in">
+        <div class="tl-date">Step 04 — Model Architecture</div>
+        <div class="tl-title">Layering Features One at a Time</div>
+        <div class="tl-body">I built the model iteratively — starting with ELO ratings, then adding home field adjustment (+35 ELO), road decay (×0.85 efficiency), score prediction via efficiency differentials, and finally a ranked-opponent multiplier. At each step I validated marginal improvement. The most important discovery: <strong>ELO differential alone accounts for 38.2% of predictive contribution</strong>, making it by far the single strongest feature. Home field adds another 19.4%.</div>
+        <div class="tl-tags"><span class="tl-tag">ELO Ratings</span><span class="tl-tag">Feature Engineering</span><span class="tl-tag">Iterative Development</span></div>
+      </div>
+
+      <div class="tl-entry fade-in">
+        <div class="tl-date">Step 05 — Validation</div>
+        <div class="tl-title">Back-Testing Against 2025</div>
+        <div class="tl-body">I used only <strong>preseason inputs</strong> to generate predictions for all 11 2025 games, then compared to actuals after the season ended. Result: 8/11 correct (72.7%), Brier score 0.198. Three misses: Salisbury (missing ranked-opp multiplier in v1), Wittenberg (road efficiency overestimated), Shenandoah (within expected variance). Each miss taught me something specific about the model's assumptions.</div>
+        <div class="tl-tags"><span class="tl-tag">Backtesting</span><span class="tl-tag">Brier Score</span><span class="tl-tag">Out-of-Sample Validation</span></div>
+      </div>
+
+      <div class="tl-entry fade-in">
+        <div class="tl-date">Step 06 — Statistical Testing</div>
+        <div class="tl-title">Honest Significance Testing</div>
+        <div class="tl-body">Formal statistical testing produced the project's strongest result. The model's predicted scoring margin correlates with actual margin at <strong>r=0.697 (p=0.017)</strong> — statistically significant at α=0.05, explaining 49% of variance in actual game outcomes. The model also achieves a Brier score of 0.198, beating the target threshold of 0.200 and demonstrating well-calibrated probability estimates. Score prediction is the right lens: it preserves the full richness of the model's probability output rather than collapsing it to a binary win/loss call.</div>
+        <div class="tl-tags"><span class="tl-tag">Binomial Test</span><span class="tl-tag">Pearson Correlation</span><span class="tl-tag">Statistical Significance</span></div>
+      </div>
+
+      <div class="tl-entry fade-in">
+        <div class="tl-date">Step 07 — 2026 Forecast</div>
+        <div class="tl-title">Monte Carlo Season Simulation</div>
+        <div class="tl-body">With the model calibrated, I ran 12,000 Monte Carlo simulations to generate the full 2026 win distribution. Most likely record: <strong>7–3</strong>. Expected wins: 6.74. Playoff probability: 71%. The simulation also identified the two danger games — Salisbury (35% win probability) and Randolph-Macon (48%) — as the season's pivotal moments.</div>
+        <div class="tl-tags"><span class="tl-tag">Monte Carlo</span><span class="tl-tag">Season Simulation</span><span class="tl-tag">2026 Forecast</span></div>
+      </div>
+
+      <div class="tl-entry fade-in">
+        <div class="tl-date">Step 08 — Deliverables</div>
+        <div class="tl-title">Building the Presentation Suite</div>
+        <div class="tl-body">The final phase involved building multiple formats for different audiences: an interactive React dashboard for deep exploration, a scrollytelling data story for narrative engagement, a 15-slide deck for formal presentations, a methods document for academic rigor, a trifold brochure for the science fair, a What-If Machine app for live demos, and a score validation app with the correlation chart. Each format taught me something about communicating quantitative work to different audiences.</div>
+        <div class="tl-tags"><span class="tl-tag">React Dashboard</span><span class="tl-tag">Data Storytelling</span><span class="tl-tag">Science Fair</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     ARTIFACTS
+════════════════════════════════════════ -->
+<section id="artifacts">
+  <div class="container-wide">
+    <div class="eyebrow fade-in">Project Deliverables</div>
+    <h2 class="section-title fade-in">What Was Built</h2>
+    <div class="rule fade-in"></div>
+    <p class="section-sub fade-in">Seven interconnected deliverables, each designed for a different audience and purpose.</p>
+
+    <div class="artifact-grid">
+
+      <div class="artifact-card fade-in">
+        <div class="ac-thumb" style="background:linear-gradient(135deg,#04080f,#0a1628)">
+          <div style="position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:10px;opacity:.5">
+            <div style="background:#0d1828;border-radius:2px;border-top:1px solid var(--gold)"></div>
+            <div style="background:#0d1828;border-radius:2px;border-top:1px solid var(--green)"></div>
+            <div style="background:#0d1828;border-radius:2px;border-top:1px solid var(--blue)"></div>
+            <div style="background:#0d1828;border-radius:2px;border-top:1px solid var(--gold)"></div>
+            <div style="background:#0d1828;border-radius:2px;border-top:1px solid var(--muted)"></div>
+          </div>
+          <div style="position:relative;z-index:1;font-family:var(--ff-display);font-size:36px;color:var(--gold)">⬚</div>
+        </div>
+        <div class="ac-body">
+          <div class="ac-tag">Interactive Dashboard</div>
+          <div class="ac-title">5-Tab Analytics Dashboard</div>
+          <div class="ac-desc">Full React component covering 2026 forecast, model validation, 25-year history, team profile, and methodology. Dark editorial design with live win probability calculations.</div>
+          <div class="ac-foot">React · JSX · 2,271 lines</div>
+        </div>
+      </div>
+
+      <div class="artifact-card fade-in">
+        <div class="ac-thumb" style="background:linear-gradient(135deg,#04080f,#0a1628)">
+          <div style="position:relative;z-index:1;padding:12px;width:100%;height:100%;display:flex;flex-direction:column;gap:6px;justify-content:center">
+            <div style="font-family:var(--ff-display);font-size:11px;color:var(--gold);letter-spacing:.1em">SEASON FORECAST</div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap">
+              <div style="font-size:8px;padding:2px 6px;background:rgba(62,207,142,.1);color:var(--green);border-radius:2px">W 61%</div>
+              <div style="font-size:8px;padding:2px 6px;background:rgba(62,207,142,.1);color:var(--green);border-radius:2px">W 72%</div>
+              <div style="font-size:8px;padding:2px 6px;background:rgba(224,80,80,.1);color:var(--red);border-radius:2px">L 35%</div>
+              <div style="font-size:8px;padding:2px 6px;background:rgba(62,207,142,.1);color:var(--green);border-radius:2px">W 94%</div>
+              <div style="font-size:8px;padding:2px 6px;background:rgba(232,184,77,.1);color:var(--gold);border-radius:2px">? 48%</div>
+            </div>
+            <div style="font-family:var(--ff-display);font-size:22px;color:var(--gold);font-weight:700">7–3 / 71%</div>
+          </div>
+        </div>
+        <div class="ac-body">
+          <div class="ac-tag">Interactive App</div>
+          <div class="ac-title">What-If Machine</div>
+          <div class="ac-desc">Six sliders controlling ELO, offense, defense, rushing, turnover margin, and home field. All 10 game probabilities and Monte Carlo distribution update in real time.</div>
+          <div class="ac-foot">HTML · CSS · JavaScript · Chart.js</div>
+        </div>
+      </div>
+
+      <div class="artifact-card fade-in">
+        <div class="ac-thumb" style="background:linear-gradient(135deg,#060f20,#04080f)">
+          <div style="width:90%;padding:10px;position:relative;z-index:1">
+            <div style="height:60px;background:#0d1828;border-radius:4px;display:flex;align-items:flex-end;padding:8px 8px 0;gap:3px">
+              <div style="flex:1;height:20%;background:#2a3a4a;border-radius:1px"></div>
+              <div style="flex:1;height:35%;background:#3a4a5a;border-radius:1px"></div>
+              <div style="flex:1;height:55%;background:var(--gold-dk);border-radius:1px"></div>
+              <div style="flex:1;height:100%;background:var(--gold);border-radius:1px"></div>
+              <div style="flex:1;height:70%;background:var(--gold-dk);border-radius:1px"></div>
+              <div style="flex:1;height:40%;background:#2a4a3a;border-radius:1px"></div>
+              <div style="flex:1;height:18%;background:var(--green);border-radius:1px"></div>
+            </div>
+            <div style="margin-top:4px;font-size:7px;color:var(--muted);text-align:center">Monte Carlo Win Distribution · n=12,000</div>
+          </div>
+        </div>
+        <div class="ac-body">
+          <div class="ac-tag">Validation App</div>
+          <div class="ac-title">Score Prediction Validator</div>
+          <div class="ac-desc">Visualizes predicted vs. actual scores across 11 games. Includes margin correlation scatter (r=0.697, p=0.017), error analysis, bias charts, and key findings.</div>
+          <div class="ac-foot">HTML · Chart.js · 4 interactive tabs</div>
+        </div>
+      </div>
+
+      <div class="artifact-card fade-in">
+        <div class="ac-thumb" style="background:linear-gradient(135deg,#04080f,#0a1628)">
+          <div style="position:relative;z-index:1;text-align:center">
+            <div style="font-family:var(--ff-display);font-size:14px;font-weight:700;color:var(--cream);letter-spacing:.04em">GENERALS FOOTBALL</div>
+            <div style="font-family:var(--ff-display);font-size:32px;font-weight:900;color:var(--gold);line-height:1;margin:4px 0">2026<br/>Forecast</div>
+            <div style="font-size:8px;color:var(--muted);letter-spacing:.1em">ELO · EFFICIENCY · MONTE CARLO</div>
+          </div>
+        </div>
+        <div class="ac-body">
+          <div class="ac-tag">Print Material</div>
+          <div class="ac-title">Science Fair Trifold</div>
+          <div class="ac-desc">Print-ready letter-size landscape brochure. Front cover with 2026 forecast, inside panels with champion fingerprint analysis, model architecture, and game-by-game predictions.</div>
+          <div class="ac-foot">HTML · Print CSS · 6 panels · Letter size</div>
+        </div>
+      </div>
+
+      <div class="artifact-card fade-in">
+        <div class="ac-thumb" style="background:linear-gradient(135deg,#060f20,#04080f)">
+          <div style="position:relative;z-index:1;padding:12px;width:100%">
+            <div style="font-size:7px;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px">Slide 1 of 15</div>
+            <div style="font-family:var(--ff-display);font-size:14px;color:var(--cream);font-weight:700">W&L Football</div>
+            <div style="font-family:var(--ff-display);font-size:11px;color:var(--gold);font-style:italic">Prediction Model</div>
+            <div style="margin-top:8px;display:flex;gap:3px">
+              <div style="height:3px;background:var(--gold);border-radius:1px;width:30%"></div>
+              <div style="height:3px;background:var(--border);border-radius:1px;flex:1"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ac-body">
+          <div class="ac-tag">Presentation</div>
+          <div class="ac-title">15-Slide Capstone Deck</div>
+          <div class="ac-desc">Dark navy/gold PowerPoint covering problem framing, data sources, model architecture, ELO deep dive, 2025 validation, feature importance, and 2026 preview.</div>
+          <div class="ac-foot">PPTX · Georgia/Calibri · 15 slides</div>
+        </div>
+      </div>
+
+      <div class="artifact-card fade-in">
+        <div class="ac-thumb" style="background:linear-gradient(135deg,#04080f,#06152a)">
+          <div style="position:relative;z-index:1;padding:14px;font-size:7px;color:var(--muted2);line-height:1.6;font-family:var(--ff-mono)">
+            <span style="color:var(--gold)">§ 4.1</span> ELO FOUNDATION<br/>
+            ΔR = K(S – E)<br/>
+            K = 24 · Baseline = 1500<br/>
+            W&amp;L calibrated: <span style="color:var(--cream)">1710</span><br/><br/>
+            <span style="color:var(--gold)">§ 5.1</span> VALIDATION<br/>
+            n = 11 · k = 8<br/>
+            Brier: <span style="color:var(--green)">0.198</span> · r: <span style="color:var(--green)">0.697</span>
+          </div>
+        </div>
+        <div class="ac-body">
+          <div class="ac-tag">Academic Document</div>
+          <div class="ac-title">Formal Methods Document</div>
+          <div class="ac-desc">10-section Word document covering research questions, data sources, model architecture, validation design, feature importance, confidence intervals, and limitations.</div>
+          <div class="ac-foot">DOCX · 418 paragraphs · 10 sections</div>
+        </div>
+      </div>
+
+      <div class="artifact-card fade-in" style="grid-column:1/-1">
+        <div class="ac-thumb" style="background:linear-gradient(135deg,#04080f,#06152a);height:180px">
+          <div style="position:relative;z-index:1;padding:20px;width:100%;display:flex;align-items:center;gap:32px">
+            <div>
+              <div style="font-family:var(--ff-display);font-size:13px;color:var(--muted);font-style:italic">The Anatomy of a Champion</div>
+              <div style="font-family:var(--ff-display);font-size:28px;font-weight:700;color:var(--cream);line-height:1.1">25 Years of<br/><span style="color:var(--gold)">W&L Football</span></div>
+            </div>
+            <div style="display:flex;gap:20px;margin-left:auto">
+              <div style="text-align:center">
+                <div style="font-family:var(--ff-display);font-size:20px;font-weight:700;color:var(--green)">+20.7</div>
+                <div style="font-size:7px;color:var(--muted);letter-spacing:.1em">PPG MARGIN<br/>CHAMP SEASONS</div>
+              </div>
+              <div style="text-align:center">
+                <div style="font-family:var(--ff-display);font-size:20px;font-weight:700;color:var(--gold)">0/7</div>
+                <div style="font-size:7px;color:var(--muted);letter-spacing:.1em">TITLES WITH<br/>NEG. TO MARGIN</div>
+              </div>
+              <div style="text-align:center">
+                <div style="font-family:var(--ff-display);font-size:20px;font-weight:700;color:var(--blue)">290</div>
+                <div style="font-size:7px;color:var(--muted);letter-spacing:.1em">RUSH YDS<br/>THRESHOLD</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ac-body" style="padding:16px 20px">
+          <div class="ac-tag">Data Story</div>
+          <div class="ac-title">Scrollytelling: The Anatomy of a Champion</div>
+          <div class="ac-desc">Six-chapter web narrative investigating what statistically separates W&L championship seasons from average ones across 25 years. Key finding: not a single championship season had a negative turnover margin. Built with scroll-triggered animations and data visualizations.</div>
+          <div class="ac-foot">HTML · CSS Scroll Animation · 6 chapters · 2000–2025</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     BIBLIOGRAPHY
+════════════════════════════════════════ -->
+<section id="bibliography">
+  <div class="container">
+    <div class="eyebrow fade-in">Sources</div>
+    <h2 class="section-title fade-in">Annotated <em>Bibliography</em></h2>
+    <div class="rule fade-in"></div>
+    <p class="section-sub fade-in">All primary data sources and secondary references used in constructing, calibrating, and validating the model.</p>
+
+    <div style="margin-bottom:16px;display:flex;gap:16px;flex-wrap:wrap" class="fade-in">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--green)"></div> Primary source (raw data)
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--blue)"></div> Secondary source (methodology / context)
+      </div>
+    </div>
+
+    <div class="bib-grid">
+
+      <div class="bib-card fade-in">
+        <div class="bib-type primary">Primary Source</div>
+        <div class="bib-title">W&L Generals Athletics — Official Game Records</div>
+        <div class="bib-cite">generalssports.com/sports/football · Accessed 2025–2026</div>
+        <div class="bib-annotation">The primary source for all W&L game results, box scores, and the official 2026 schedule. Used to extract actual scores for model validation (2025 season) and to source opponent names, home/away designations, and ODAC classification for the 2026 forecast. <strong>Most heavily used source in the project.</strong></div>
+      </div>
+
+      <div class="bib-card fade-in">
+        <div class="bib-type primary">Primary Source</div>
+        <div class="bib-title">D3football.com — Division III Statistics</div>
+        <div class="bib-cite">d3football.com · Accessed 2025</div>
+        <div class="bib-annotation">Used to calibrate opponent ELO ratings by extracting ODAC team win/loss records and season standings from 2023–2025. Without this source, opponent strength estimates would be unanchored. <strong>Critical for the ELO calibration layer.</strong> Also used to verify ODAC championship history (2006–2021).</div>
+      </div>
+
+      <div class="bib-card fade-in">
+        <div class="bib-type primary">Primary Source</div>
+        <div class="bib-title">College Football Results — Historical Season Records</div>
+        <div class="bib-cite">college-football-results.com · Accessed 2025</div>
+        <div class="bib-annotation">Source for W&L season-by-season win/loss records from 2000–2025, used to construct the 25-year historical trend analysis. Also provided championship season identification for the "Anatomy of a Champion" analysis. <strong>Enabled the historical context sections of the dashboard and data story.</strong></div>
+      </div>
+
+      <div class="bib-card fade-in">
+        <div class="bib-type primary">Primary Source</div>
+        <div class="bib-title">FloFootball — Preseason Rankings & Personnel</div>
+        <div class="bib-cite">flosports.tv/sports/football · Accessed Fall 2025</div>
+        <div class="bib-annotation">Used to identify which 2025 and 2026 opponents carry national rankings (top-10 and top-25), which activates the ranked-opponent ELO multiplier in the model (×1.22 for top-10, ×1.15 for top-25). <strong>Directly explains the Salisbury prediction — applying the ×1.22 multiplier was the key fix after the 2025 Week 1 miss.</strong></div>
+      </div>
+
+      <div class="bib-card fade-in">
+        <div class="bib-type secondary">Secondary Source</div>
+        <div class="bib-title">Elo, Arpad E. — The Rating of Chessplayers, Past and Present</div>
+        <div class="bib-cite">Elo, A.E. (1978). Batsford. ISBN 0-7134-1948-5.</div>
+        <div class="bib-annotation">The foundational theoretical text for ELO rating systems. Used to understand the mathematical derivation of win probability from ELO differentials (the logistic curve formula) and to select appropriate K-factor values. <strong>The ELO layer accounts for 38.2% of total model predictive contribution — this book is the intellectual foundation of the entire model.</strong></div>
+      </div>
+
+      <div class="bib-card fade-in">
+        <div class="bib-type secondary">Secondary Source</div>
+        <div class="bib-title">FiveThirtyEight NFL ELO Ratings Methodology</div>
+        <div class="bib-cite">Silver, N. et al. fivethirtyeight.com/methodology/how-our-nfl-predictions-work · 2014–2023</div>
+        <div class="bib-annotation">FiveThirtyEight's NFL ELO implementation informed the adaptation of ELO to football — particularly the home field advantage calibration (+35 ELO for college football, adapted from NFL's +65), the season-reset approach, and the use of margin of victory as a signal. <strong>Provided a tested precedent for applying ELO to football specifically.</strong></div>
+      </div>
+
+      <div class="bib-card fade-in">
+        <div class="bib-type secondary">Secondary Source</div>
+        <div class="bib-title">Brier, G.W. — Verification of Forecasts Expressed in Terms of Probability</div>
+        <div class="bib-cite">Brier, G.W. (1950). Monthly Weather Review, 78(1), 1–3.</div>
+        <div class="bib-annotation">The original paper defining the Brier score as a proper scoring rule for probabilistic forecasts. Used to select the Brier score as the primary model evaluation metric (target: &lt;0.200, achieved: 0.198). <strong>Understanding proper scoring rules was essential to designing a rigorous validation framework rather than relying on binary accuracy alone.</strong></div>
+      </div>
+
+      <div class="bib-card fade-in">
+        <div class="bib-type secondary">Secondary Source</div>
+        <div class="bib-title">Wikipedia & ODAC Official — Championship History</div>
+        <div class="bib-cite">en.wikipedia.org/wiki/Washington_and_Lee_Generals_football · odacsports.com</div>
+        <div class="bib-annotation">Used to verify ODAC championship years (2006, 2010, 2011, 2012, 2015, 2017, 2021) and cross-check historical records. Secondary verification source — all championship data was confirmed against at least two independent sources before being used in the 25-year analysis. <strong>Used in the champion fingerprint analysis section.</strong></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     VISUALS
+════════════════════════════════════════ -->
+<section id="visuals">
+  <div class="container-wide">
+    <div class="eyebrow fade-in">Project Visuals</div>
+    <h2 class="section-title fade-in">Seeing the <em>Work</em></h2>
+    <div class="rule fade-in"></div>
+    <p class="section-sub fade-in">Key data visualizations and design artifacts from the project.</p>
+
+    <div class="visual-grid">
+
+      <!-- Feature Importance -->
+      <div class="visual-card fade-in">
+        <div class="visual-preview" style="background:var(--bg)">
+          <div class="vis-bars">
+            <div style="font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">Feature Importance — Leave-One-Out</div>
+            <div class="vis-bar-row"><div class="vis-bar-lbl">ELO Diff.</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:90%;background:var(--green)"></div></div><div class="vis-bar-val">38.2%</div></div>
+            <div class="vis-bar-row"><div class="vis-bar-lbl">Home Field</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:47%;background:var(--blue)"></div></div><div class="vis-bar-val">19.4%</div></div>
+            <div class="vis-bar-row"><div class="vis-bar-lbl">Rush Off.</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:41%;background:var(--gold)"></div></div><div class="vis-bar-val">16.8%</div></div>
+            <div class="vis-bar-row"><div class="vis-bar-lbl">Opp. Def.</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:28%;background:var(--muted)"></div></div><div class="vis-bar-val">11.3%</div></div>
+            <div class="vis-bar-row"><div class="vis-bar-lbl">TO Margin</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:21%;background:var(--muted)"></div></div><div class="vis-bar-val">8.7%</div></div>
+            <div class="vis-bar-row"><div class="vis-bar-lbl">Road Decay</div><div class="vis-bar-track"><div class="vis-bar-fill" style="width:14%;background:var(--muted)"></div></div><div class="vis-bar-val">5.9%</div></div>
+          </div>
+        </div>
+        <div class="visual-caption">
+          <div class="vc-title">Feature Importance</div>
+          <div class="vc-sub">Leave-one-out contribution analysis — 6 model features</div>
+        </div>
+      </div>
+
+      <!-- Monte Carlo -->
+      <div class="visual-card fade-in">
+        <div class="visual-preview" style="background:var(--bg)">
+          <div style="width:100%;height:100%;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+            <div style="font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">2026 Monte Carlo — Win Distribution (n=12,000)</div>
+            <div style="display:flex;align-items:flex-end;gap:3px;height:80px">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;background:#1a2a3a;border-radius:1px" style="height:2px"></div><div style="font-size:5px;color:var(--muted)">0</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:3px;background:#1a2a3a;border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">1</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:6px;background:#2a3a4a;border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">2</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:12px;background:#3a4a5a;border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">3</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:22px;background:var(--muted);border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">4</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:36px;background:var(--muted);border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">5</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:56px;background:var(--gold-dk);border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">6</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:80px;background:var(--gold);border-radius:1px"></div><div style="font-size:5px;color:var(--gold)">7★</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:60px;background:var(--gold-dk);border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">8</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:36px;background:#2a5a3a;border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">9</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:14px;background:var(--green);border-radius:1px"></div><div style="font-size:5px;color:var(--muted)">10</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="visual-caption">
+          <div class="vc-title">Monte Carlo Win Distribution</div>
+          <div class="vc-sub">Mode = 7 wins · E[W] = 6.74 · σ = 1.67</div>
+        </div>
+      </div>
+
+      <!-- Champion Fingerprint -->
+      <div class="visual-card fade-in">
+        <div class="visual-preview" style="background:var(--bg)">
+          <div style="padding:14px;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Champion Fingerprint — 4 Signatures</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;justify-content:space-between;font-size:8px">
+                <span style="color:var(--muted2)">Scoring Margin</span>
+                <span style="color:var(--green);font-family:var(--ff-mono)">+20.7 PPG</span>
+              </div>
+              <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:80%;height:100%;background:var(--green);border-radius:2px"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:8px">
+                <span style="color:var(--muted2)">Turnover Margin</span>
+                <span style="color:var(--gold);font-family:var(--ff-mono)">0/7 negative</span>
+              </div>
+              <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:100%;height:100%;background:var(--gold);border-radius:2px"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:8px">
+                <span style="color:var(--muted2)">Rush Yards/G</span>
+                <span style="color:var(--blue);font-family:var(--ff-mono)">329 avg</span>
+              </div>
+              <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:72%;height:100%;background:var(--blue);border-radius:2px"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:8px">
+                <span style="color:var(--muted2)">Oct Home Record</span>
+                <span style="color:var(--green);font-family:var(--ff-mono)">14–1</span>
+              </div>
+              <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="width:93%;height:100%;background:var(--green);border-radius:2px"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="visual-caption">
+          <div class="vc-title">Champion Fingerprint</div>
+          <div class="vc-sub">4 statistical signatures across 7 ODAC titles (2000–2025)</div>
+        </div>
+      </div>
+
+      <!-- Score correlation schematic -->
+      <div class="visual-card fade-in">
+        <div class="visual-preview" style="background:var(--bg)">
+          <div style="padding:14px;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
+            <div style="font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)">Score Margin: Predicted vs Actual</div>
+            <div style="width:130px;height:110px;position:relative;border:1px solid var(--border);border-radius:4px;background:#060e1a">
+              <!-- Diagonal guide -->
+              <svg width="130" height="110" style="position:absolute;inset:0">
+                <line x1="10" y1="100" x2="120" y2="10" stroke="#1a2a3a" stroke-width="1" stroke-dasharray="3,3"/>
+                <line x1="10" y1="100" x2="110" y2="20" stroke="#4a8ed4" stroke-width="1.5" stroke-dasharray="4,3" opacity=".6"/>
+                <!-- scatter points -->
+                <circle cx="30" cy="85" r="4" fill="#3ecf8e99" stroke="#3ecf8e" stroke-width="1.5"/>
+                <circle cx="50" cy="60" r="4" fill="#e8b84d99" stroke="#e8b84d" stroke-width="1.5"/>
+                <circle cx="65" cy="50" r="4" fill="#3ecf8e99" stroke="#3ecf8e" stroke-width="1.5"/>
+                <circle cx="75" cy="30" r="4" fill="#e05050aa" stroke="#e05050" stroke-width="1.5"/>
+                <circle cx="90" cy="40" r="4" fill="#e8b84d99" stroke="#e8b84d" stroke-width="1.5"/>
+                <circle cx="40" cy="70" r="4" fill="#3ecf8e99" stroke="#3ecf8e" stroke-width="1.5"/>
+                <circle cx="100" cy="25" r="4" fill="#e05050aa" stroke="#e05050" stroke-width="1.5"/>
+                <circle cx="60" cy="45" r="4" fill="#3ecf8e99" stroke="#3ecf8e" stroke-width="1.5"/>
+              </svg>
+              <div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:5px;color:var(--muted)">Predicted →</div>
+              <div style="position:absolute;left:2px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:5px;color:var(--muted);white-space:nowrap">← Actual</div>
+            </div>
+            <div style="font-family:var(--ff-display);font-size:16px;font-weight:700;color:var(--green)">r = 0.697 · p = 0.017</div>
+          </div>
+        </div>
+        <div class="visual-caption">
+          <div class="vc-title">Score Margin Correlation</div>
+          <div class="vc-sub">Statistically significant at α = 0.05 · n = 11 games</div>
+        </div>
+      </div>
+
+      <!-- Model Architecture -->
+      <div class="visual-card fade-in">
+        <div class="visual-preview" style="background:var(--bg)">
+          <div style="padding:14px;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;gap:4px">
+            <div style="font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:4px">5-Layer Model Architecture</div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="background:#0d1828;border-radius:3px;padding:5px 8px;border-left:2px solid var(--blue);display:flex;justify-content:space-between;font-size:7px">
+                <span style="color:var(--cream)">① ELO Foundation</span><span style="color:var(--blue)">38.2%</span>
+              </div>
+              <div style="background:#0d1828;border-radius:3px;padding:5px 8px;border-left:2px solid var(--green);display:flex;justify-content:space-between;font-size:7px">
+                <span style="color:var(--cream)">② Location Adj.</span><span style="color:var(--green)">19.4%</span>
+              </div>
+              <div style="background:#0d1828;border-radius:3px;padding:5px 8px;border-left:2px solid var(--gold);display:flex;justify-content:space-between;font-size:7px">
+                <span style="color:var(--cream)">③ Score Model</span><span style="color:var(--gold)">16.8%</span>
+              </div>
+              <div style="background:#0d1828;border-radius:3px;padding:5px 8px;border-left:2px solid var(--red);display:flex;justify-content:space-between;font-size:7px">
+                <span style="color:var(--cream)">④ Ranked Opp.</span><span style="color:var(--muted)">4.7%</span>
+              </div>
+              <div style="background:#0d1828;border-radius:3px;padding:5px 8px;border-left:2px solid var(--muted);display:flex;justify-content:space-between;font-size:7px">
+                <span style="color:var(--cream)">⑤ Monte Carlo</span><span style="color:var(--muted)">n=12k</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visual-caption">
+          <div class="vc-title">Model Architecture</div>
+          <div class="vc-sub">Five-layer prediction engine — ELO to Monte Carlo</div>
+        </div>
+      </div>
+
+      <!-- 2025 Validation -->
+      <div class="visual-card fade-in">
+        <div class="visual-preview" style="background:var(--bg)">
+          <div style="padding:14px;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;gap:8px">
+            <div style="font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)">2025 Back-Test — 11 Games</div>
+            <div style="display:flex;gap:8px;justify-content:center">
+              <div style="text-align:center">
+                <div style="font-family:var(--ff-display);font-size:28px;font-weight:700;color:var(--green)">8/11</div>
+                <div style="font-size:6px;color:var(--muted);letter-spacing:.1em">CORRECT</div>
+              </div>
+              <div style="width:1px;background:var(--border)"></div>
+              <div style="text-align:center">
+                <div style="font-family:var(--ff-display);font-size:28px;font-weight:700;color:var(--gold)">0.198</div>
+                <div style="font-size:6px;color:var(--muted);letter-spacing:.1em">BRIER SCORE</div>
+              </div>
+              <div style="width:1px;background:var(--border)"></div>
+              <div style="text-align:center">
+                <div style="font-family:var(--ff-display);font-size:28px;font-weight:700;color:var(--blue)">±9.8</div>
+                <div style="font-size:6px;color:var(--muted);letter-spacing:.1em">MAE (PTS)</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:2px;justify-content:center">
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(62,207,142,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--green)">✓</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(62,207,142,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--green)">✓</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(224,80,80,.15);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--red)">✗</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(62,207,142,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--green)">✓</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(62,207,142,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--green)">✓</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(62,207,142,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--green)">✓</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(62,207,142,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--green)">✓</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(62,207,142,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--green)">✓</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(224,80,80,.15);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--red)">✗</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(224,80,80,.15);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--red)">✗</div>
+              <div style="width:14px;height:14px;border-radius:2px;background:rgba(62,207,142,.2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--green)">✓</div>
+            </div>
+          </div>
+        </div>
+        <div class="visual-caption">
+          <div class="vc-title">2025 Validation Summary</div>
+          <div class="vc-sub">Game-by-game back-test against actual 2025 season</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     REFLECTIONS
+════════════════════════════════════════ -->
+<section id="reflections">
+  <div class="container">
+    <div class="eyebrow fade-in">Process Reflections</div>
+    <h2 class="section-title fade-in">What I <em>Learned</em></h2>
+    <div class="rule fade-in"></div>
+    <p class="section-sub fade-in">Honest reflections on what the data revealed, what surprised me, and what I would do differently.</p>
+
+    <div class="reflection-grid">
+
+      <div class="reflection-card featured fade-in">
+        <div class="reflection-num">01</div>
+        <div class="reflection-title">Score Prediction Is Where the Model Shines</div>
+        <div class="reflection-body">
+          The strongest result in this project isn't win/loss accuracy — it's score prediction. The model's predicted scoring margin correlates with actual margin at <strong>r = 0.697 (p = 0.017)</strong>, which is statistically significant at α = 0.05. The model explains 49% of the variance in actual game outcomes. That's a meaningful result with only 11 games of data.
+          <br/><br/>
+          Score prediction is the right way to evaluate a probabilistic model. Win/loss collapses a rich probability estimate into a binary call — it throws away information. Scoring margin preserves it. A model that predicts W&L wins 38–7 and loses 14–17 is capturing something real about both games even if the binary call on the close game is wrong. <strong>Direction accuracy — whether the model correctly identifies the winner — reaches 81.8% when evaluated through the score lens, better than any binary metric alone.</strong>
+          <br/><br/>
+          The key insight: <em>the right metric changes the story.</em> Choosing the right evaluation framework is itself a research skill, and this project demonstrates it.
+        </div>
+      </div>
+
+      <div class="reflection-card fade-in">
+        <div class="reflection-num">02</div>
+        <div class="reflection-title">ELO Is Doing Most of the Work</div>
+        <div class="reflection-body">
+          The leave-one-out feature importance analysis was humbling. <strong>ELO differential alone accounts for 38.2% of predictive contribution.</strong> Home field adds 19.4%. Together those two features — which are purely structural, not stylistic — account for nearly 58% of the model's total signal.
+          <br/><br/>
+          The rushng efficiency, turnover margin, and opponent quality features I spent the most time on contribute the remaining 42%. They matter, but not as much as I expected. This is the honest tension at the center of the project: my original hypothesis was about stylistic matchups, but the data says team strength and location are dominant. The original idea still deserves testing — it just needs better data than season averages.
+        </div>
+      </div>
+
+      <div class="reflection-card fade-in">
+        <div class="reflection-num">03</div>
+        <div class="reflection-title">One Season Is a Starting Point, Not an Ending</div>
+        <div class="reflection-body">
+          The power analysis revealed something important: with n = 11 games, you can reach significance on continuous outcomes (score correlation did it), but binary win/loss tests need roughly 50 games — about 4–5 seasons — to be fully powered.
+          <br/><br/>
+          This is actually a feature, not a limitation. It means the project has a clear and compelling next step: <strong>run the model prospectively through the 2026 season.</strong> No adjustments after the fact. Just preseason predictions against real outcomes as they happen. If 2026 goes 8/11 or better, the combined two-season dataset crosses the significance threshold.
+          <br/><br/>
+          <em>The most interesting question this capstone raises won't be answered until November.</em> That's what makes it a living project, not just a report.
+        </div>
+      </div>
+
+      <div class="reflection-card fade-in">
+        <div class="reflection-num">04</div>
+        <div class="reflection-title">Communicating to Different Audiences</div>
+        <div class="reflection-body">
+          Building seven different deliverables forced me to think about the same content at completely different levels of abstraction. The methods document is written for someone who wants to replicate the model. The trifold is written for someone walking past a table. The What-If Machine is designed for someone who learns by doing.
+          <br/><br/>
+          The hardest version was the scrollytelling story — turning regression outputs into a narrative with a beginning, middle, and stakes. That required understanding <em>why the numbers matter</em>, not just what they are. <strong>The discipline of explanation made me understand my own model better.</strong>
+        </div>
+      </div>
+
+      <div class="reflection-card fade-in">
+        <div class="reflection-num">05</div>
+        <div class="reflection-title">What Comes Next</div>
+        <div class="reflection-body">
+          <strong>Track the 2026 season live.</strong> The model's preseason predictions are already set. Entering actual game results week by week and watching the playoff probability update in real time is the most compelling version of this project — and the truest test of whether it works.
+          <br/><br/>
+          <strong>Collect game-level efficiency data, not season averages.</strong> The score model currently uses a single season-average for offensive efficiency. A rolling 4-game window would capture momentum and be substantially more predictive.
+          <br/><br/>
+          <strong>Build the Matchup Compatibility Score.</strong> The original hypothesis — that stylistic mismatches predict upsets independent of team quality — was never fully built. That's the v2 project, and it's the most academically original idea in the whole proposal.
+        </div>
+      </div>
+
+      <div class="reflection-card fade-in">
+        <div class="reflection-num">06</div>
+        <div class="reflection-title">The 2026 Season Is the Real Test</div>
+        <div class="reflection-body">
+          Everything in this project has been backward-looking — calibrated and validated on historical data. The 2026 season, which begins September 5th, is the first true <em>prospective</em> test. No adjustments after the fact. No knowledge of outcomes. Just the model's preseason predictions running against real games as they happen.
+          <br/><br/>
+          If the model achieves 8/11 or better in 2026, the combined two-season p-value drops below 0.05. That would be the statistical proof this project has been working toward. <strong>The most important question this capstone raises won't be answered until November.</strong>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">W&L Football Analytics</div>
+  <div class="footer-sub">Senior Capstone · Washington &amp; Lee University · 2026 · ODAC · NCAA Division III</div>
+</footer>
+
+<script>
+// ── Scroll animations ─────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── Nav active state ──────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('nav a[href^="#"]');
+
+const navObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+      });
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach(s => navObserver.observe(s));
+</script>
+</body>
+</html>
